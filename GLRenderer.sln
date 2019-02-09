@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLRenderer", "GLRenderer\GLRenderer.vcxproj", "{44D2CBAF-8E52-4D35-A468-812C1008CAC6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44D2CBAF-8E52-4D35-A468-812C1008CAC6}.Debug|x64.ActiveCfg = Debug|x64
+		{44D2CBAF-8E52-4D35-A468-812C1008CAC6}.Debug|x64.Build.0 = Debug|x64
+		{44D2CBAF-8E52-4D35-A468-812C1008CAC6}.Debug|x86.ActiveCfg = Debug|Win32
+		{44D2CBAF-8E52-4D35-A468-812C1008CAC6}.Debug|x86.Build.0 = Debug|Win32
+		{44D2CBAF-8E52-4D35-A468-812C1008CAC6}.Release|x64.ActiveCfg = Release|x64
+		{44D2CBAF-8E52-4D35-A468-812C1008CAC6}.Release|x64.Build.0 = Release|x64
+		{44D2CBAF-8E52-4D35-A468-812C1008CAC6}.Release|x86.ActiveCfg = Release|Win32
+		{44D2CBAF-8E52-4D35-A468-812C1008CAC6}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {06D0B67E-7862-49D9-801E-A2B61AF96D92}
+	EndGlobalSection
+EndGlobal
