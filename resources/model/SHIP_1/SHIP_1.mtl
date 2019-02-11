@@ -1,0 +1,14 @@
+# Blender MTL File: 'Sample_Ship.blend'
+# Material Count: 1
+newmtl sh3
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd SHIP_1_DIFFUSE.jpg
+map_Ks SHIP_1_SPECULAR.jpg
+
+
