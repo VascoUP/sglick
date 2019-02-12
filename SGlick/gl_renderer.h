@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gl_scene.h"
+#include "gl_camera.h"
 
 namespace glick
 {
@@ -41,14 +42,18 @@ namespace glick
 		Renderer();
 
 		scene::Scene* get_scene() { return m_scene_; };
+		behavior::Camera* get_camera() { return m_camera_; }
 
-		void initialize();
+		void initialize(Window* window);
 		void render();
 		void terminate();
 
 		~Renderer();
 	private:
+		Window* m_window_;
+
 		scene::Scene* m_scene_;
+		behavior::Camera* m_camera_;
 	};
 
 	class Program

@@ -5,6 +5,9 @@
 
 #pragma once
 
+#include "gl_camera.h"
+#include "gl_framebuffer.h"
+#include "gl_math.h"
 #include "gl_material.h"
 #include "gl_scene.h"
 #include "gl_renderer.h"

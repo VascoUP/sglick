@@ -142,3 +142,22 @@ glick::mat::Material::~Material()
 	delete m_shader_;
 	m_shader_ = nullptr;
 }
+
+
+//glick::mat::MeshShader::MeshShader() :
+//	u_projection_(0),
+//	u_view_(0),
+//	u_model_(0)
+//{}
+//
+//void glick::mat::MeshShader::get_uniforms()
+//{
+//	u_projection_ = get_uniform("uProjection");
+//	u_view_ = get_uniform("uView");
+//	u_model_ = get_uniform("uModel");
+//
+//	get_uniforms_();
+//}
+//
+//glick::mat::MeshMaterial::MeshMaterial()
+//= default;

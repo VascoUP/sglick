@@ -4,6 +4,7 @@
 #include <list>
 
 #include "gl_material.h"
+#include "gl_math.h"
 
 namespace glick
 {
@@ -74,7 +75,9 @@ namespace glick
 			void remove_child(Object* object);
 			void move(Object* new_parent);
 
-			void initialize();
+			math::Transformation* get_transformation() { return m_transform_; }
+
+			void initialize(math::Transformation* transformation = nullptr);
 			void render();
 			void update();
 
@@ -82,6 +85,7 @@ namespace glick
 		private:
 			std::list<Object*> m_children_;
 			MeshRenderer* m_mesh_;
+			math::Transformation* m_transform_;
 		};
 
 		// Loads an external model, 

@@ -148,7 +148,8 @@ glick::scene::MeshRenderer::~MeshRenderer()
 
 // Object
 glick::scene::Object::Object() :
-	m_mesh_(nullptr)
+	m_mesh_(nullptr),
+	m_transform_(nullptr)
 {}
 
 void glick::scene::Object::set_mesh(MeshRenderer * mesh)
@@ -156,13 +157,22 @@ void glick::scene::Object::set_mesh(MeshRenderer * mesh)
 	m_mesh_ = mesh;
 }
 
-void glick::scene::Object::initialize()
+void glick::scene::Object::initialize(math::Transformation* transformation)
 {
-	
+	if(!transformation)
+	{
+		m_transform_ = new math::Transformation();
+	}
+	else
+	{
+		m_transform_ = transformation;
+	}
 }
 
 void glick::scene::Object::render()
 {
+	math::Transformation::push_matrix(m_transform_->calculate_local_matrix(true));
+
 	if(m_mesh_)
 	{
 		m_mesh_->render();
@@ -176,6 +186,8 @@ void glick::scene::Object::render()
 
 		iter = iter++;
 	}
+
+	math::Transformation::pop_matrix();
 }
 
 void glick::scene::Object::update()
