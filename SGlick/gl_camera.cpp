@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "gl_camera.h"
 
+float glick::behavior::Camera::rotation_ = 0.001f;
+float glick::behavior::Camera::translation_ = -(rotation_ * 2 * 3.14f * 2.0f) / (3.14f);
+
 glick::behavior::Camera::Camera() :
 	m_view_projection_(CameraViewProjection())
 {}

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "gl_scene.h"
-#include <iterator>
 
 const unsigned int COUNT_ELEMS_PER_VERTEX = 8;
 
@@ -116,7 +115,12 @@ glick::scene::MeshRenderer::MeshRenderer() :
 	m_mesh_(nullptr)
 {}
 
-void glick::scene::MeshRenderer::initialize(mat::Material * material, Mesh * mesh)
+void glick::scene::MeshRenderer::set_material(mat::Material* material)
+{
+	m_material_ = material;
+}
+
+void glick::scene::MeshRenderer::initialize(Mesh* mesh, mat::Material* material)
 {
 	m_material_ = material;
 	m_mesh_ = mesh;
@@ -152,6 +156,11 @@ glick::scene::Object::Object() :
 	m_transform_(nullptr)
 {}
 
+void glick::scene::Object::add_child(Object* object)
+{
+	m_children_.push_back(object);
+}
+
 void glick::scene::Object::set_mesh(MeshRenderer * mesh)
 {
 	m_mesh_ = mesh;
@@ -171,20 +180,19 @@ void glick::scene::Object::initialize(math::Transformation* transformation)
 
 void glick::scene::Object::render()
 {
-	math::Transformation::push_matrix(m_transform_->calculate_local_matrix(true));
+	glm::mat4 local_mat = m_transform_->calculate_local_matrix(false);
+	float local_scale = m_transform_->get_scale();
+	math::Transformation::push_matrix(local_mat, local_scale);
 
 	if(m_mesh_)
 	{
 		m_mesh_->render();
 	}
 
-	auto iter = m_children_.begin();
-	while(iter != m_children_.end())
+	for(auto iter = m_children_.begin(); iter != m_children_.end(); ++iter)
 	{
 		Object* object = *iter;
 		object->render();
-
-		iter = iter++;
 	}
 
 	math::Transformation::pop_matrix();
@@ -192,27 +200,111 @@ void glick::scene::Object::render()
 
 void glick::scene::Object::update()
 {
-
-	auto iter = m_children_.begin();
-	while (*iter)
+	for (auto iter = m_children_.begin(); iter != m_children_.end(); ++iter)
 	{
 		Object* object = *iter;
-		object->render();
-
-		iter = iter++;
+		object->update();
 	}
 }
 
 glick::scene::Object::~Object()
 {
-	auto iter = m_children_.begin();
-	while (iter != m_children_.end())
+	for (auto iter = m_children_.begin(); iter != m_children_.end(); ++iter)
 	{
 		delete *iter;
-		iter = iter++;
 	}
 	m_children_.clear();
 
 	delete m_mesh_;
 	m_mesh_ = nullptr;
+}
+
+// Model
+void glick::scene::Model::load_mesh(glick::scene::Object* parent, aiMesh * mesh, const aiScene * scene)
+{
+	auto* transform = new glick::math::Transformation();
+
+	auto* object = new glick::scene::Object();
+	object->initialize(transform);
+
+	parent->add_child(object);
+
+	std::vector<GLfloat> vertices;
+	std::vector<unsigned int> indices;
+
+	for (size_t i = 0; i < mesh->mNumVertices; i++)
+	{
+		vertices.insert(vertices.end(), { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z });
+		if (mesh->mTextureCoords[0])
+		{
+			vertices.insert(vertices.end(), { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y });
+		}
+		else {
+			vertices.insert(vertices.end(), { 0.0f, 0.0f });
+		}
+		vertices.insert(vertices.end(), { -mesh->mNormals[i].x, -mesh->mNormals[i].y, -mesh->mNormals[i].z });
+	}
+
+	for (size_t i = 0; i < mesh->mNumFaces; i++)
+	{
+		aiFace face = mesh->mFaces[i];
+		for (size_t j = 0; j < face.mNumIndices; j++)
+		{
+			indices.push_back(face.mIndices[j]);
+		}
+	}
+
+	auto info = glick::scene::MeshInfo();
+	info.vertices = &vertices[0]; info.indices = &indices[0];
+	info.count_vertex_array = vertices.size(); info.count_index_array = indices.size();
+
+	glick::scene::Mesh* mesh_object = new glick::scene::Mesh();
+	mesh_object->initialize(info);
+
+	auto* mesh_renderer = new glick::scene::MeshRenderer();
+	mesh_renderer->initialize(mesh_object);
+
+	object->set_mesh(mesh_renderer);
+
+	//meshList.push_back(newMesh);
+	//meshToTex.push_back(mesh->mMaterialIndex);
+}
+
+glick::scene::Object* glick::scene::Model::load_node(glick::scene::Object* parent, aiNode * node, const aiScene * scene)
+{
+	auto* transform = new glick::math::Transformation();
+
+	auto* object = new glick::scene::Object();
+	object->initialize(transform);
+
+	parent->add_child(object);
+
+	for (size_t i = 0; i < node->mNumMeshes; i++)
+	{
+		load_mesh(object, scene->mMeshes[node->mMeshes[i]], scene);
+	}
+
+	for (size_t i = 0; i < node->mNumChildren; i++)
+	{
+		load_node(object, node->mChildren[i], scene);
+	}
+
+	return object;
+}
+
+glick::scene::Object* glick::scene::Model::load_model(glick::scene::Object* parent, const char* path)
+{
+	Assimp::Importer importer;
+	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices | aiProcess_FlipWindingOrder);
+
+	if (!scene)
+	{
+		printf("Model (%s) failed to load: %s", path, importer.GetErrorString());
+		return nullptr;
+	}
+
+	auto* object = load_node(parent, scene->mRootNode, scene);
+	//LoadMaterials(scene);
+
+	return object;
 }

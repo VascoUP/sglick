@@ -9,6 +9,8 @@ void ExampleShader::get_uniforms()
 	u_projection_ = get_uniform("uProjection");
 	u_view_ = get_uniform("uView");
 	u_model_ = get_uniform("uModel");
+	u_albedo_color_ = get_uniform("uAlbedoColor");
+	u_albedo_ = get_uniform("uAlbedo");
 }
 
 void ExampleShader::initialize()
@@ -60,6 +62,9 @@ void ExampleMaterial::use_material()
 		glUniformMatrix4fv(e_shader->u_projection_, 1, GL_FALSE, glm::value_ptr(view_projection.m_projection_));
 		glUniformMatrix4fv(e_shader->u_view_, 1, GL_FALSE, glm::value_ptr(view_projection.m_view_));
 		glUniformMatrix4fv(e_shader->u_model_, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3f(e_shader->u_albedo_color_, 1.0f, 1.0f, 1.0f);
+
+		m_albedo_->use_texture(0);
 	}
 }
 

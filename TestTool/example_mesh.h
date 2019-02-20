@@ -1,8 +1,13 @@
 #pragma once
-class ExampleMesh
+
+#include <assimp/Importer.hpp>
+#include <assimp\scene.h>
+#include <assimp\postprocess.h>
+
+#include "gl_scene.h"
+
+class example_mesh
 {
 public:
-	ExampleMesh();
-	~ExampleMesh();
+	static glick::scene::Mesh* get();
 };
-

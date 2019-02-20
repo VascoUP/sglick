@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "gl_renderer.h"
 #include <iostream>
+#include "gl_behavior.h"
 
 void error_callback(int error, const char* description)
 {
@@ -64,7 +65,7 @@ void glick::Window::initialize(unsigned int width, unsigned int height, int glMa
 	glfwMakeContextCurrent(m_window_);
 
 	// Set input interruption callbacks
-	glfwSetKeyCallback(m_window_, key_callback);
+	behavior::Input::set_callback(m_window_);
 	glfwSetInputMode(m_window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// Allow modern extension features

@@ -3,6 +3,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "stb_image.h"
+
 #include <string>
 
 namespace glick
@@ -51,46 +53,45 @@ namespace glick
 			Shader* m_shader_;
 		};
 
-		//class MeshShader :
-		//	public Shader
-		//{
-		//public:
-		//	MeshShader();
+		struct TextureInfo
+		{
+			bool use_default_settings;
+			GLenum texture_type;
 
-		//	void get_uniforms() override;
-		//	void initialize() override;
+			struct ImageData
+			{
+				void* data;
+				int bit_depth;
+				int width;
+				int height;
+			}* texture_data;
+			size_t texture_count;
+		};
 
-		//	void use_shader() const;
-		//	void terminate();
+		struct ImageInfo
+		{
+			bool use_default_settings;
+			GLenum texture_type;
+			const char** image_location;
+			size_t image_count;
+		};
 
-		//	virtual ~MeshShader() = default;
+		class Texture
+		{
+		public:
+			Texture();
 
-		//protected:
-		//	virtual void get_uniforms_() = 0;
-		//	virtual void initialize_() = 0;
+			virtual void initialize(TextureInfo texture_info);
+			void use_texture(GLuint texture_index);
+			void terminate();
 
-		//private:
-		//	GLuint u_projection_;
-		//	GLuint u_view_;
-		//	GLuint u_model_;
-		//};
+			static Texture* initialize_images(const ImageInfo image_info);
 
-		//class MeshMaterial :
-		//	public Material
-		//{
-		//public:
-		//	MeshMaterial();
+			virtual ~Texture();
 
-		//	void initialize(Shader* shader) override;
-		//	void use_material() override;
-		//	void terminate() override;
-
-		//	virtual ~MeshMaterial();
-
-		//protected:
-		//	virtual void initialize_() = 0;
-		//	virtual void use_material_() = 0;
-		//	virtual void terminate_() = 0;
-		//};
+		private:
+			GLuint m_id_;
+			GLenum m_type_;
+		};
 	}
 }

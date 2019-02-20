@@ -2,6 +2,11 @@
 
 #include <string>
 #include <list>
+#include <iterator>
+
+#include <assimp/Importer.hpp>
+#include <assimp\scene.h>
+#include <assimp\postprocess.h>
 
 #include "gl_material.h"
 #include "gl_math.h"
@@ -52,7 +57,9 @@ namespace glick
 		public:
 			MeshRenderer();
 
-			void initialize(mat::Material* material, Mesh* mesh);
+			void set_material(mat::Material* material);
+
+			void initialize(Mesh* mesh, mat::Material* material = nullptr);
 			void render();
 			void terminate();
 
@@ -75,6 +82,9 @@ namespace glick
 			void remove_child(Object* object);
 			void move(Object* new_parent);
 
+			std::list<Object*>* get_children() { return &m_children_; }
+			MeshRenderer* get_mesh_renderer() { return m_mesh_; }
+
 			math::Transformation* get_transformation() { return m_transform_; }
 
 			void initialize(math::Transformation* transformation = nullptr);
@@ -94,7 +104,10 @@ namespace glick
 		class Model
 		{
 		public:
-			static Object* load_model(std::string* path);
+			static Object* load_model(Object* parent, const char* path);
+		private:
+			static auto load_mesh(glick::scene::Object* parent, aiMesh* mesh, const aiScene* scene) -> void;
+			static Object* load_node(glick::scene::Object* parent, aiNode * node, const aiScene * scene);
 		};
 
 

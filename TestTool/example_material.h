@@ -17,6 +17,8 @@ public:
 	~ExampleShader();
 
 	GLuint u_projection_, u_view_, u_model_;
+	GLuint u_albedo_color_;
+	GLuint u_albedo_;
 };
 
 class ExampleMaterial :
@@ -33,5 +35,7 @@ public:
 
 	glick::scene::Object* m_object_;
 	glick::behavior::Camera* m_camera_;
+
+	glick::mat::Texture* m_albedo_;
 };
 

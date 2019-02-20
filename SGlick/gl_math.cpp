@@ -1,17 +1,22 @@
 #include "stdafx.h"
 #include "gl_math.h"
 
-std::vector<glm::mat4> glick::math::Transformation::model_matrix_ = std::vector<glm::mat4>({ glm::mat4() });
+std::vector<glick::math::Transformation::local*> glick::math::Transformation::model_matrix_ = 
+	std::vector<local*>({ new local() });
 
 
-void glick::math::Transformation::push_matrix(const glm::mat4 local_matrix)
+void glick::math::Transformation::push_matrix(const glm::mat4 local_matrix, const float scale)
 {
-	model_matrix_.push_back(get_model_matrix() * local_matrix);
+	auto *local_info = new local();
+	local_info->model_matrix = (*(--model_matrix_.end()))->model_matrix * local_matrix;
+	local_info->scale = (*(--model_matrix_.end()))->scale * scale;
+	model_matrix_.push_back(local_info);
 }
 
 glm::mat4 glick::math::Transformation::get_model_matrix()
 {
-	return *(--model_matrix_.end());
+	auto* local_info = *(--model_matrix_.end());
+	return glm::scale(glm::mat4(), glm::vec3(local_info->scale, local_info->scale, local_info->scale)) * local_info->model_matrix;
 }
 
 void glick::math::Transformation::pop_matrix()
@@ -19,6 +24,10 @@ void glick::math::Transformation::pop_matrix()
 	// Don't pop the last matrix
 	if (model_matrix_.size() <= 1)
 		return;
+
+	auto* local_info = *(--model_matrix_.end());
+	delete local_info;
+
 	model_matrix_.pop_back();
 }
 
@@ -49,7 +58,7 @@ void glick::math::Transformation::rotate(glm::vec3 rotation)
 
 void glick::math::Transformation::scale(float scale)
 {
-	m_scale_ += scale;
+	m_scale_ *= scale;
 }
 
 void glick::math::Transformation::update_rotation()

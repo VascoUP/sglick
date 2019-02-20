@@ -19,13 +19,29 @@ void glick::Program::run_cycle()
 
 	while (!glfwWindowShouldClose(m_window_->get_window()))
 	{
+		behavior::Input::new_frame();
+
 		glfwPollEvents();
 
-		// run renderer
-		m_renderer_->render();
+		{
+			const double start = glfwGetTime();
+			m_renderer_->render();
+			const double end = glfwGetTime();
+			const double delta_interruption = end - start;
+			perf::Performance::set_render(delta_interruption);
+		}
 
 		glUseProgram(0);
-		glfwSwapBuffers(m_window_->get_window());
+
+		{
+			const double start = glfwGetTime();
+			glfwSwapBuffers(m_window_->get_window());
+			const double end = glfwGetTime();
+			const double delta_interruption = end - start;
+			perf::Performance::set_swap_buffers(delta_interruption);
+		}
+
+		perf::Performance::log_performance_metrics();
 	}
 }
 

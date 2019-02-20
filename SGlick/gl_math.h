@@ -16,12 +16,13 @@ namespace glick
 		public:
 			Transformation();
 
-			static void push_matrix(glm::mat4 local_matrix);
+			static void push_matrix(const glm::mat4 local_matrix, const float scale);
 			static glm::mat4 get_model_matrix();
 			static void pop_matrix();
 
 			glm::vec3 get_position() const { return m_position_; }
 			glm::vec3 get_front() const { return m_front_; }
+			float get_scale() const { return m_scale_; }
 
 			void translate(glm::vec3 translation);
 			void translate_local(glm::vec3 translation);
@@ -32,10 +33,16 @@ namespace glick
 
 			~Transformation();
 		private:
+			struct local
+			{
+				glm::mat4 model_matrix = glm::mat4();
+				float scale = 1.0f;
+			};
+
 			void update_rotation();
 
 			static float hello;
-			static std::vector<glm::mat4> model_matrix_;
+			static std::vector<local*> model_matrix_;
 
 			glm::vec3 m_front_;
 			glm::vec3 m_up_;

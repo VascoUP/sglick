@@ -21,7 +21,7 @@
     <ClInclude Include="example_material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExampleMesh.h">
+    <ClInclude Include="example_mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClCompile Include="example_material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ExampleMesh.cpp">
+    <ClCompile Include="example_mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -5,6 +5,9 @@
 
 #pragma once
 
+#include "stb_image.h"
+#include "gl_performance.h"
+#include "gl_behavior.h"
 #include "gl_camera.h"
 #include "gl_framebuffer.h"
 #include "gl_math.h"
