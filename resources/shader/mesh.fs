@@ -1,21 +1,18 @@
 #version 440
 
-//in vec4 vColor;
-in vec2 vTexture;
-in vec4 vPosition;
+layout(location = 0) out vec4 out_diffused;
+layout(location = 1) out vec4 out_position;
+layout(location = 2) out vec4 out_normal;
 
-layout(location = 0) out vec4 oColor;
+in vec2 vertex_texture;
+in vec3 vertex_position;
+in vec3 vertex_normal;
 
-uniform sampler2D uAlbedo;
-uniform vec3 uAlbedoColor;
+uniform sampler2D u_diffuse;
+uniform vec3 u_albedo;
 
 void main() {
-	//vec4 position = vPosition;
-	//position.z = position.z / vPosition.w;
-	//position.w = 1.0;
-	//oColor = position;
-
-	//oColor = vec4(uAlbedoColor, 1.0);
-	oColor = texture(uAlbedo, vTexture) * vec4(uAlbedoColor,1.0);
-	//oColor = vColor;
+	out_diffused = texture(u_diffuse, vertex_texture) * vec4(u_albedo, 1.0);
+	out_position = vec4(vertex_position, 1.0);
+	out_normal = vec4(vertex_normal, 1.0);
 }

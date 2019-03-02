@@ -1,7 +1,5 @@
 #include "stdafx.h"
-#include "gl_renderer.h"
-#include <iostream>
-#include "gl_behavior.h"
+#include "gl_window.h"
 
 void error_callback(int error, const char* description)
 {

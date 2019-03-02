@@ -21,13 +21,7 @@
     <ClInclude Include="gl_material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gl_renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gl_scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gl_framebuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gl_camera.h">
@@ -45,6 +39,12 @@
     <ClInclude Include="stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gl_deferred.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gl_window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -53,19 +53,10 @@
     <ClCompile Include="gl_material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gl_renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gl_renderer_window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gl_scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gl_scene_mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gl_program.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gl_camera.cpp">
@@ -78,6 +69,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gl_performance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gl_deferred.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gl_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -15,12 +15,14 @@ void glick::perf::Performance::log_performance_metrics()
 		Update lag: %lf\n\
 		Render lag: %lf\n\
 		Swap buffers lag: %lf\n\
+		FPS: %d\n\
 		==========================================\n", 
 		m_instance_->input_poll_lag_,
 		m_instance_->input_new_lag_,
 		m_instance_->update_lag_,
 		m_instance_->render_lag_,
-		m_instance_->swap_buffers_lag_);
+		m_instance_->swap_buffers_lag_,
+		behavior::FPSCounter::fps());
 	std::cout << log;
 }
 
@@ -49,13 +51,25 @@ void glick::perf::Performance::set_swap_buffers(const double lag)
 	m_instance_->swap_buffers_lag_ = lag;
 }
 
-glick::perf::Performance::Performance()
+void glick::perf::Performance::new_frame()
 {
-	input_poll_lag_ = 0.0f;
-	input_new_lag_ = 0.0f;
-	update_lag_ = 0.0f;
-	render_lag_ = 0.0f;
-	swap_buffers_lag_ = 0.0f;
+	m_instance_->m_time_to_second_ += behavior::Time::delta_time();
+	if(m_instance_->m_time_to_second_ >= 1.0)
+	{
+		log_performance_metrics();
+
+		m_instance_->m_time_to_second_ -= floor(m_instance_->m_time_to_second_);
+	}
+}
+
+glick::perf::Performance::Performance() :
+	input_poll_lag_(0.0f),
+	input_new_lag_(0.0f),
+	update_lag_(0.0f),
+	render_lag_(0.0f),
+	swap_buffers_lag_(0.0f),
+	m_time_to_second_(0.0f)
+{
 }
 
 glick::perf::Performance::~Performance()

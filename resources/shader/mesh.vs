@@ -1,20 +1,28 @@
 #version 440
 
-layout(location = 0) in vec3 aPosition;
-layout(location = 1) in vec2 aTexture;
+layout(location = 0) in vec3 a_position;
+layout(location = 1) in vec2 a_texture;
+layout(location = 2) in vec3 a_normal;
 
-uniform mat4 uProjection;
-uniform mat4 uView;
-uniform mat4 uModel;
+uniform mat4 u_projection;
+uniform mat4 u_view;
+uniform mat4 u_model;
 
-//out vec4 vColor;
-out vec2 vTexture;
-out vec4 vPosition;
+out vec2 vertex_texture;
+out vec3 vertex_position;
+out vec3 vertex_normal;
 
 void main() {
-	vPosition = uView * uModel * vec4(aPosition, 1.0);
-	gl_Position = uProjection * vPosition;
+	vec4 world_position = u_model * vec4(a_position, 1.0);
+	vertex_position = world_position.xyz;
+	gl_Position = u_projection * u_view * world_position;
 
-	vPosition.xy = (vPosition.xy + 1.0) * 0.5;
-	vTexture = aTexture;
+	vertex_texture = a_texture;
+
+	mat4 nWorld = u_model;
+	nWorld[3][0] = 0;
+	nWorld[3][1] = 0;
+	nWorld[3][2] = 0;
+
+	vertex_normal = (nWorld * vec4(a_normal, 1.0)).xyz;
 }

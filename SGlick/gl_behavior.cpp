@@ -2,7 +2,9 @@
 #include "gl_behavior.h"
 #include "gl_performance.h"
 
-glick::behavior::Input* glick::behavior::Input::m_instance_ = new glick::behavior::Input();
+glick::behavior::Input* glick::behavior::Input::m_instance_ = new Input();
+glick::behavior::Time* glick::behavior::Time::m_instance_ = new Time();
+glick::behavior::FPSCounter* glick::behavior::FPSCounter::m_instance_ = new FPSCounter();
 
 void glick::behavior::Input::key_callback(GLFWwindow * window, int key, int scancode, int action, int mods)
 {
@@ -76,3 +78,39 @@ glick::behavior::Input::~Input()
 {
 	m_instance_ = nullptr;
 }
+
+glick::behavior::Time::Time() :
+	m_delta_time_(0),
+	m_time_(0.0)
+{}
+
+void glick::behavior::Time::new_frame()
+{
+	double time = glfwGetTime();
+	m_instance_->m_delta_time_ = time - m_instance_->m_time_;
+	m_instance_->m_time_ = time;
+}
+
+glick::behavior::Time::~Time()
+= default;
+
+glick::behavior::FPSCounter::FPSCounter() :
+	m_fps_(0),
+	m_fps_counter_(0),
+	m_time_to_second_(0.0)
+{}
+
+void glick::behavior::FPSCounter::new_frame()
+{
+	m_instance_->m_time_to_second_ += Time::delta_time();
+	++m_instance_->m_fps_counter_;
+	while(m_instance_->m_time_to_second_ >= 1.0)
+	{
+		m_instance_->m_time_to_second_ -= 1.0;
+		m_instance_->m_fps_ = m_instance_->m_fps_counter_;
+		m_instance_->m_fps_counter_ = 0;
+	}
+}
+
+glick::behavior::FPSCounter::~FPSCounter()
+= default;

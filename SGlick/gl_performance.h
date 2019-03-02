@@ -7,6 +7,7 @@ namespace glick
 		class Performance
 		{
 		public:
+			static void new_frame();
 			static void log_performance_metrics();
 			static void set_input_poll(double lag);
 			static void set_input_new(double lag);
@@ -20,6 +21,8 @@ namespace glick
 			~Performance();
 
 			static Performance* m_instance_;
+
+			double m_time_to_second_;
 
 			double input_poll_lag_;
 			double input_new_lag_;

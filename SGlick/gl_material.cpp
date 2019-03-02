@@ -209,7 +209,7 @@ glick::mat::Texture* glick::mat::Texture::initialize_images(const ImageInfo imag
 	info.use_default_settings = image_info.use_default_settings;
 	info.texture_type = image_info.texture_type;
 	info.texture_count = image_info.image_count;
-	info.texture_data = new TextureInfo::ImageData[image_info.image_count];
+	info.texture_data = new TextureInfo::Data[image_info.image_count];
 	
 	for(size_t i = 0; i < info.texture_count; i++)
 	{
@@ -237,4 +237,112 @@ glick::mat::Texture* glick::mat::Texture::initialize_images(const ImageInfo imag
 }
 
 glick::mat::Texture::~Texture()
+= default;
+
+glick::mat::Framebuffer::Framebuffer() :
+	m_fbo_(0),
+	m_color_attachments_(nullptr),
+	m_depth_attachment_(0),
+	m_size_color_attachments_(0)
+{}
+
+bool glick::mat::Framebuffer::initialize(FramebufferInfo info)
+{
+	m_color_attachments_		= new GLuint[info.texture_count];
+	m_size_color_attachments_	= info.texture_count;
+	m_draw_buffers_				= new GLuint[info.texture_count];
+
+	glGenFramebuffers(1, &m_fbo_);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo_);
+
+	for(size_t i = 0; i < m_size_color_attachments_; i++)
+	{
+		GLenum interFormat;
+		if (info.texture_data[i].format_range == 0)
+		{
+			interFormat =
+				info.texture_data[i].bit_depth == 3 ?
+				GL_RGB : GL_RGBA;
+		}
+		else if (info.texture_data[i].format_range == 1)
+		{
+			interFormat =
+				info.texture_data[i].bit_depth == 3 ?
+				GL_RGB16F : GL_RGBA16F;
+		}
+		else if (info.texture_data[i].format_range == 2)
+		{
+			interFormat =
+				info.texture_data[i].bit_depth == 3 ?
+				GL_RGB32F : GL_RGBA32F;
+		}
+
+		GLenum format =
+			info.texture_data[i].bit_depth == 3 ?
+			GL_RGB : GL_RGBA;
+		GLenum test = GL_RGB;
+		GLenum tesl = GL_RGBA;
+
+		glGenTextures(1, &m_color_attachments_[i]);
+		glBindTexture(info.texture_type, m_color_attachments_[i]);
+		glTexImage2D(info.texture_type, 0, interFormat,
+			info.texture_data[i].width,
+			info.texture_data[i].height,
+			0, format,
+			GL_FLOAT, nullptr);
+
+		if(info.use_default_settings)
+		{
+			glTexParameteri(info.texture_type, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(info.texture_type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		}
+
+		m_draw_buffers_[i] = GL_COLOR_ATTACHMENT0 + i;
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, info.texture_type, m_color_attachments_[i], 0);
+	}
+
+	if(info.depth_attachment)
+	{
+		glGenTextures(1, &m_depth_attachment_);
+		glBindTexture(info.texture_type, m_depth_attachment_);
+		glTexImage2D(info.texture_type, 0, GL_DEPTH_COMPONENT,
+			info.depth_data.width,
+			info.depth_data.height,
+			0, GL_DEPTH_COMPONENT,
+			GL_FLOAT, nullptr);
+
+		if (info.use_default_settings)
+		{
+			glTexParameteri(info.texture_type, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(info.texture_type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		}
+
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, info.texture_type, m_depth_attachment_, 0);
+	}
+
+	glDrawBuffers(m_size_color_attachments_, m_draw_buffers_);
+
+	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	if (status != GL_FRAMEBUFFER_COMPLETE) {
+		printf("Frame buffer Error %i\n", status);
+		return false;
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	return true;
+}
+
+void glick::mat::Framebuffer::use_framebuffer() const
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo_);
+}
+
+void glick::mat::Framebuffer::terminate()
+{
+	glDeleteFramebuffers(1, &m_fbo_);
+}
+
+glick::mat::Framebuffer::~Framebuffer()
 = default;

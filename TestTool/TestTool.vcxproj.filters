@@ -24,6 +24,9 @@
     <ClInclude Include="example_mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MyProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -38,9 +41,14 @@
     <ClCompile Include="example_mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MyProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\shader\mesh.fs" />
     <None Include="..\resources\shader\mesh.vs" />
+    <None Include="..\resources\shader\deferred.fs" />
+    <None Include="..\resources\shader\deferred.vs" />
   </ItemGroup>
 </Project>

@@ -92,9 +92,9 @@ glick::scene::Mesh * glick::scene::ScreenQuad::get()
 	GLfloat vertices[]{
 		//	x,		y,		z,		u,		v,		nx,		ny,		nz
 			-1.0f,	-1.0f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,
-			1.0f,	-1.0f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,
-			-1.0f,	1.0f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,
-			1.0f,	1.0f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,
+			1.0f,	-1.0f,	0.0f,	1.0f,	0.0f,	0.0f,	0.0f,	0.0f,
+			-1.0f,	1.0f,	0.0f,	0.0f,	1.0f,	0.0f,	0.0f,	0.0f,
+			1.0f,	1.0f,	0.0f,	1.0f,	1.0f,	0.0f,	0.0f,	0.0f,
 	};
 	GLuint indices[]{
 		0, 2, 1,

@@ -21,11 +21,11 @@
   <ItemGroup>
     <ClInclude Include="gl_behavior.h" />
     <ClInclude Include="gl_camera.h" />
-    <ClInclude Include="gl_framebuffer.h" />
+    <ClInclude Include="gl_deferred.h" />
     <ClInclude Include="gl_material.h" />
     <ClInclude Include="gl_math.h" />
     <ClInclude Include="gl_performance.h" />
-    <ClInclude Include="gl_renderer.h" />
+    <ClInclude Include="gl_window.h" />
     <ClInclude Include="gl_scene.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stdafx.h" />
@@ -33,12 +33,11 @@
   <ItemGroup>
     <ClCompile Include="gl_behavior.cpp" />
     <ClCompile Include="gl_camera.cpp" />
+    <ClCompile Include="gl_deferred.cpp" />
     <ClCompile Include="gl_material.cpp" />
     <ClCompile Include="gl_math.cpp" />
     <ClCompile Include="gl_performance.cpp" />
-    <ClCompile Include="gl_program.cpp" />
-    <ClCompile Include="gl_renderer.cpp" />
-    <ClCompile Include="gl_renderer_window.cpp" />
+    <ClCompile Include="gl_window.cpp" />
     <ClCompile Include="gl_scene.cpp" />
     <ClCompile Include="gl_scene_mesh.cpp" />
     <ClCompile Include="stdafx.cpp">

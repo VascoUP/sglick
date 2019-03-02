@@ -169,11 +169,13 @@
   <ItemGroup>
     <ClInclude Include="example_material.h" />
     <ClInclude Include="example_mesh.h" />
+    <ClInclude Include="MyProgram.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="example_material.cpp" />
     <ClCompile Include="example_mesh.cpp" />
+    <ClCompile Include="MyProgram.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -188,6 +190,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\resources\shader\deferred.fs" />
+    <None Include="..\resources\shader\deferred.vs" />
     <None Include="..\resources\shader\mesh.fs" />
     <None Include="..\resources\shader\mesh.vs" />
   </ItemGroup>

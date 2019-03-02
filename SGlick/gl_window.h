@@ -1,7 +1,7 @@
 #pragma once
 
-#include "gl_scene.h"
-#include "gl_camera.h"
+#include <gl/glew.h>
+#include <GLFW/glfw3.h>
 
 namespace glick
 {
@@ -34,39 +34,5 @@ namespace glick
 
 		int m_gl_major_;
 		int m_gl_minor_;
-	};
-
-	class Renderer
-	{
-	public:
-		Renderer();
-
-		scene::Scene* get_scene() { return m_scene_; };
-		behavior::Camera* get_camera() { return m_camera_; }
-
-		void initialize(Window* window);
-		void render();
-		void terminate();
-
-		~Renderer();
-	private:
-		Window* m_window_;
-
-		scene::Scene* m_scene_;
-		behavior::Camera* m_camera_;
-	};
-
-	class Program
-	{
-	public:
-		Program();
-
-		void initialize(Window* window, Renderer* renderer);
-		void run_cycle();
-		
-		~Program();
-	private:
-		Window* m_window_;
-		Renderer* m_renderer_;
 	};
 }

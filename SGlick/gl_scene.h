@@ -46,12 +46,6 @@ namespace glick
 			unsigned int count_triangles_;
 		};
 
-		class ScreenQuad
-		{
-		public:
-			static Mesh* get();
-		};
-
 		class MeshRenderer
 		{
 		public:
@@ -110,6 +104,11 @@ namespace glick
 			static Object* load_node(glick::scene::Object* parent, aiNode * node, const aiScene * scene);
 		};
 
+		class ScreenQuad
+		{
+		public:
+			static glick::scene::Mesh* get();
+		};
 
 		// The scene keeps the information about 
 		//	certain parameters that are specific
