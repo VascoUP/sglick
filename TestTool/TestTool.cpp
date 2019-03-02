@@ -57,15 +57,29 @@ int main()
 	auto* material = new SimpleMaterial(camera);
 	material->initialize(shader);
 
-	const char* locations[]{ "C:/Users/vasco/Documentos/GitHub/GLRenderer/resources/model/SHIP_1/SHIP_1_DIFFUSE.jpg" };
+	const char* diffuse_texture_location[]
 	{
-		const glick::mat::ImageInfo info{
+		"C:/Users/vasco/Documentos/GitHub/GLRenderer/resources/model/SHIP_1/SHIP_1_DIFFUSE.jpg"
+	};
+	const char* specular_texture_location[]
+	{
+		"C:/Users/vasco/Documentos/GitHub/GLRenderer/resources/model/SHIP_1/SHIP_1_SPECULAR.jpg"
+	};
+	{
+		const glick::mat::ImageInfo info_diffuse {
 			true,
 			GL_TEXTURE_2D,
-			locations,
+			diffuse_texture_location,
 			1
 		};
-		material->m_albedo_ = glick::mat::Texture::initialize_images(info);
+		material->m_diffuse_ = glick::mat::Texture::initialize_images(info_diffuse);
+		const glick::mat::ImageInfo info_specular {
+			true,
+			GL_TEXTURE_2D,
+			specular_texture_location,
+			1
+		};
+		material->m_specular_ = glick::mat::Texture::initialize_images(info_specular);
 	}
 
 	set_material(object_1, material);

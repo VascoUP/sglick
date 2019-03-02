@@ -16,9 +16,8 @@ public:
 
 	~SimpleShader();
 
-	GLuint u_projection_, u_view_, u_model_;
-	GLuint u_albedo_color_;
-	GLuint u_diffuse_;
+	GLuint u_projection_{}, u_view_{}, u_model_{};
+	GLuint u_diffuse_{}, u_specular_{};
 };
 
 class SimpleMaterial :
@@ -36,7 +35,8 @@ public:
 	glick::scene::Object* m_object_;
 	glick::behavior::Camera* m_camera_;
 
-	glick::mat::Texture* m_albedo_;
+	glick::mat::Texture* m_diffuse_;
+	glick::mat::Texture* m_specular_;
 };
 
 class DeferredShader :
@@ -49,8 +49,6 @@ public:
 	void initialize() override;
 
 	~DeferredShader();
-
-	//GLuint u_albedo_color_;
 };
 
 class DeferredMaterial :

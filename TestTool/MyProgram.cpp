@@ -19,7 +19,7 @@ MyProgram::MyProgram(glick::Window * window, glick::scene::Scene* scene, glick::
 		info.texture_count = 3;
 
 		auto color0 = glick::mat::FramebufferInfo::Data();
-		color0.bit_depth = 3;
+		color0.bit_depth = 4;
 		color0.format_range = 1;
 		color0.width = m_window_->get_buffer_width();
 		color0.height = m_window_->get_buffer_height();
@@ -100,7 +100,7 @@ void MyProgram::render()
 	if (!m_scene_ || !m_camera_)
 		return;
 
-	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Here I can draw the skybox onto the screen
@@ -109,7 +109,7 @@ void MyProgram::render()
 	// that is: diffuse color, specular color, among other
 	// position and normals in screen space (or clip space/view space)
 	m_framebuffer_->use_framebuffer();
-	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	m_scene_->render();
